@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/item_provider.dart';
 
 class TodoApp extends ConsumerStatefulWidget {
@@ -100,7 +101,7 @@ class _TodoAppState extends ConsumerState<TodoApp> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue[700],
         onPressed: () {
           dialogBox();
         },
@@ -191,50 +192,79 @@ class _TodoAppState extends ConsumerState<TodoApp> {
                       : ListView.builder(
                           itemCount: item.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              padding: EdgeInsets.all(0),
-                              margin: EdgeInsets.only(
-                                top: sw * 0.03,
-                                right: sw * 0.01,
-                                left: sw * 0.01,
-                                bottom: sw * 0.01,
-                              ),
-                              height: sh * 0.08,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(sw * 0.03),
-                                color: Colors.white,
-                              ),
-                              child: Center(
-                                child: ListTile(
-                                  leading: Checkbox(
-                                    value: item[index].ischeck,
-                                    onChanged: (x) {
-                                      ref
-                                          .read(itemProvider.notifier)
-                                          .toggle(index);
-                                    },
-                                  ),
-                                  title: Text(
-                                    item[index].text,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      decoration: item[index].ischeck
-                                          ? TextDecoration.lineThrough
-                                          : TextDecoration.none,
-                                      fontSize: 18,
+                            return Slidable(
+                              endActionPane: ActionPane(motion: StretchMotion(),
+                                  extentRatio: 0.25,
+                                  children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: sw*0.02,   top: sw * 0.03,),
+                                    height: sh * 0.08,
+
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(sw * 0.04),
+                                      color: Colors.red,
                                     ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          ref
+                                              .read(itemProvider.notifier)
+                                              .delete(item[index].id);
+                                        },
+                                        icon: Icon(
+                                          Icons.delete_forever_outlined,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                      ),
                                   ),
-                                  trailing: IconButton(
-                                    onPressed: () {
-                                      ref
-                                          .read(itemProvider.notifier)
-                                          .delete(item[index].id);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete_forever_outlined,
-                                      color: Colors.redAccent,
-                                      size: 30,
+                                )
+                              ]),
+                              child: Container(
+                                padding: EdgeInsets.all(0),
+                                margin: EdgeInsets.only(
+                                  top: sw * 0.03,
+                                  right: sw * 0.01,
+                                  left: sw * 0.01,
+                                  bottom: sw * 0.01,
+                                ),
+                                height: sh * 0.08,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(sw * 0.03),
+                                  color: Colors.white,
+                                ),
+                                child: Center(
+                                  child: ListTile(
+                                    leading: Checkbox(
+                                      value: item[index].ischeck,
+                                      onChanged: (x) {
+                                        ref
+                                            .read(itemProvider.notifier)
+                                            .toggle(index);
+                                      },
                                     ),
+                                    title: Text(
+                                      item[index].text,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        decoration: item[index].ischeck
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    // trailing: IconButton(
+                                    //   onPressed: () {
+                                    //     ref
+                                    //         .read(itemProvider.notifier)
+                                    //         .delete(item[index].id);
+                                    //   },
+                                    //   icon: Icon(
+                                    //     Icons.delete_forever_outlined,
+                                    //     color: Colors.redAccent,
+                                    //     size: 30,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                               ),
