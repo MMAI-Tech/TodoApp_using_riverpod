@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/item_provider.dart';
+import 'package:todo_app/old_version.dart';
 
 class TodoApp extends ConsumerStatefulWidget {
   const TodoApp({super.key});
@@ -109,8 +110,10 @@ class _TodoAppState extends ConsumerState<TodoApp> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
-        title: Center(
-          child: Text(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[ 
+            Text(
             'Todo App',
             style: TextStyle(
               color: Colors.white,
@@ -118,6 +121,10 @@ class _TodoAppState extends ConsumerState<TodoApp> {
               fontWeight: FontWeight.bold,
             ),
           ),
+            IconButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> OldVersion()));
+            }, icon: Icon(Icons.history,color: Colors.white,size: 25,))
+        ]
         ),
       ),
       body: Container(
