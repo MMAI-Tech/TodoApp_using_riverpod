@@ -131,7 +131,7 @@ class _TodoAppState extends ConsumerState<TodoApp> {
           padding: EdgeInsets.zero,
           children: [
             Container(
-              height: sh * 0.33,
+              height: sh * 0.4,
 
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -163,36 +163,65 @@ class _TodoAppState extends ConsumerState<TodoApp> {
             SizedBox(height: sh*0.015,),
             Container(
               padding: EdgeInsets.all(sw*0.03),
-              child: Column(
-                children: [
-                   Tile(backgroundColor: Colors.blue.withValues(alpha: 0.2),
-                   icon: Icons.home,
-                     iconColor: Colors.blue[800],
-                     textColor: Colors.blue[800],
-                     name: "Home",
-                   ),
-                  Tile(
-                    icon: Icons.assignment,
-                    name: "Todo",
-                  ), Tile(
-                    icon: Icons.settings,
-                    name: "Settings",
-                  ), Tile(
-                    icon: Icons.person_pin_outlined,
-                    name: "About Us",
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: sh*0.015,bottom: sh*0.015),
-                    width: sw*0.6,
-                    height: sh*0.002,
-                    color: Colors.grey[500],
-                  ),
-                  Tile(
-                    icon: Icons.login_outlined,
-                    name: "Logout",
-                  ),
-                ],
-              ),
+              child:Consumer(builder: (context,ref,child){
+                num indi = ref.watch(indicator);
+               return Column(
+                  children: [
+                    Tile(
+
+                      icon: Icons.home,
+                      backgroundColor:indi == 1? Colors.blue.withValues(alpha: 0.2):Colors.transparent,
+                      iconColor:indi == 1? Colors.blue[800]:Colors.black,
+                      textColor: indi == 1?Colors.blue[800]:Colors.black,
+                      name: "Home",
+                      press: (){
+                        ref.read(indicator.notifier).state = 1;
+                      },
+                    ),
+                    Tile(
+                      icon: Icons.assignment,
+                      backgroundColor:indi == 2? Colors.blue.withValues(alpha: 0.2):Colors.transparent,
+                      iconColor:indi == 2? Colors.blue[800]:Colors.black,
+                      textColor: indi == 2?Colors.blue[800]:Colors.black,
+                      name: "Todo",
+                      press: (){
+                        ref.read(indicator.notifier).state = 2;
+                      },
+                    ), Tile(
+                      icon: Icons.settings,
+                      backgroundColor:indi == 3? Colors.blue.withValues(alpha: 0.2):Colors.transparent,
+                      iconColor:indi == 3? Colors.blue[800]:Colors.black,
+                      textColor: indi == 3?Colors.blue[800]:Colors.black,
+                      name: "Settings",
+                      press: (){
+                        ref.read(indicator.notifier).state = 3;
+                      },
+                    ), Tile(
+                      icon: Icons.person_pin_outlined,
+                      backgroundColor:indi == 4? Colors.blue.withValues(alpha: 0.2):Colors.transparent,
+                      iconColor:indi == 4? Colors.blue[800]:Colors.black,
+                      textColor: indi == 4?Colors.blue[800]:Colors.black,
+                      name: "About Us",
+                      press: (){
+                        ref.read(indicator.notifier).state = 4;
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: sh*0.015,bottom: sh*0.015),
+                      width: sw*0.6,
+                      height: sh*0.002,
+                      color: Colors.grey[500],
+                    ),
+                    Tile(
+                      iconColor: Colors.red,
+                      textColor: Colors.red,
+                      icon: Icons.login_outlined,
+                      name: "Logout",
+                    ),
+                  ],
+                );
+              })
+
             )
           ],
         ),

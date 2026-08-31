@@ -3,7 +3,9 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:todo_app/item.dart';
 
-
+final indicator = StateProvider((reg){
+  return 1;
+});
 
 final itemProvider = StateNotifierProvider<ItemNotifier,List<Item>>((ref){
   return ItemNotifier() ;
